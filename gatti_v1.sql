@@ -58,7 +58,7 @@ CREATE USER IF NOT EXISTS 'registrator'@'localhost' IDENTIFIED BY 'ToB31nsert?';
 
 GRANT SELECT ON gattile_db.* TO 'lecture'@'localhost';
 GRANT SELECT,INSERT,UPDATE ON gattile_db.* TO 'modifier'@'localhost';
-GRANT INSERT ON gattile_db.* TO 'registrator'@'localhost';
+GRANT INSERT ON gattile_db.utenti TO 'registrator'@'localhost';
 
 FLUSH PRIVILEGES;
 

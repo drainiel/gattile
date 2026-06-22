@@ -24,16 +24,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->execute([$username]);
             $user = $stmt->fetch();
             
-            // Per scopi accademici/testing controlliamo se la password corrisponde in chiaro
-            // Nel mondo reale si userebbe password_verify e password_hash
-            if ($user && $user['password'] === $password) {
+            if ($user && password_verify($password, $user['password'])) {
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['is_admin'] = (bool)$user['is_admin'];
                 
                 if ($ricordami) {
-                    // Cookie valido per 72 ore
-                    setcookie('ricordami_user', $username, time() + (72 * 3600), '/');
+                    // Cookie valido per 72 ore (codificato in base64)
+                    setcookie('ricordami_user', base64_encode($username), time() + (72 * 3600), '/');
                 } else {
                     // Rimuove il cookie se non selezionato
                     setcookie('ricordami_user', '', time() - 3600, '/');
@@ -50,8 +48,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Pre-compila username se cookie presente
-$saved_username = $_COOKIE['ricordami_user'] ?? '';
+// Pre-compila username decodificandolo dal cookie se presente
+$saved_username = isset($_COOKIE['ricordami_user']) ? base64_decode($_COOKIE['ricordami_user']) : '';
 
 require_once 'includes/header.php';
 ?>

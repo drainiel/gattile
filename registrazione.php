@@ -33,8 +33,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Verifica duplicati? L'utente registrator ha solo INSERT. Se il vincolo UNIQUE fallisce, genererà eccezione.
             $stmt = $pdo->prepare("INSERT INTO utenti (nome, cognome, indirizzo, username, password, is_admin) VALUES (?, ?, ?, ?, ?, 0)");
             
-            // Password inserita in chiaro per compatibilità con il dump SQL fornito.
-            $stmt->execute([$nome, $cognome, $indirizzo, $username, $password]);
+            // Utilizzo di password_hash per salvare la password in modo sicuro
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            $stmt->execute([$nome, $cognome, $indirizzo, $username, $hashed_password]);
             
             $success = "Registrazione completata con successo! Ora puoi effettuare il login.";
         } catch (PDOException $e) {

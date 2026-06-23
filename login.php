@@ -24,7 +24,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->execute([$username]);
             $user = $stmt->fetch();
             
-            if ($user && password_verify($password, $user['password'])) {
+            // ATTENZIONE: Controllo password in chiaro (NON SICURO).
+            // In un ambiente di produzione deve essere utilizzato password_verify().
+            if ($user && $user['password'] === $password) {
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['is_admin'] = (bool)$user['is_admin'];

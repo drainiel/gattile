@@ -13,6 +13,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="images/fav-icon.svg">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -22,7 +23,7 @@ if (session_status() === PHP_SESSION_NONE) {
         </div>
         <div class="user-status">
             <?php if (isset($_SESSION['username'])): ?>
-                <span>Benvenuto, <?php echo htmlspecialchars($_SESSION['username']); ?></span>
+                <span>Ciao, <?php echo htmlspecialchars($_SESSION['username']); ?></span>
             <?php else: ?>
                 <span>Non loggato</span>
             <?php endif; ?>

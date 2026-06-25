@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $pdo->prepare("INSERT INTO gatti (nome, descrizione, peso, colore_mantello, lunghezza_pelo, razza, colore_occhi, eta, sesso, data_arrivo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([$nome, $descrizione, $peso, $colore_mantello, $lunghezza_pelo, $razza, $colore_occhi, $eta, $sesso, $data_arrivo]);
             
-            $success = "Scheda gatto creata con successo! L'immagine placeholder è stata assegnata automaticamente.";
+            $success = "Nuovo gatto inserito con successo!";
         } catch (Exception $e) {
             $error = "Errore durante l'inserimento: " . $e->getMessage();
         }
@@ -43,7 +43,7 @@ require_once 'includes/header.php';
 
 <section class="form-container mt-2 mb-2" style="max-width: 600px;">
     <h2 class="auth-title">Inserimento Nuovo Gatto</h2>
-    <p class="auth-subtitle">Compila la scheda per registrare un nuovo ospite del gattile.</p>
+    <p class="auth-subtitle">Compila il form per registrare un nuovo ospite del gattile.</p>
     
     <?php if ($error): ?>
         <output class="alert alert-error"><?php echo htmlspecialchars($error); ?></output>
@@ -100,7 +100,7 @@ require_once 'includes/header.php';
             <input type="date" name="data_arrivo" id="data_arrivo" required>
         </div>
         
-        <button type="submit" id="btn-inserisci">Crea Scheda</button>
+        <button type="submit" id="btn-inserisci">Inserisci gatto</button>
     </form>
 </section>
 

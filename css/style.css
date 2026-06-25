@@ -2,7 +2,7 @@
 
 :root {
     /* Colori Base */
-    --primary-color: #11c5fc;
+    --primary-color: #579bfa;
     --secondary-color: #14213d;
     --bg-color: #f8f9fa;
     --text-color: #333333;
@@ -126,7 +126,9 @@ nav a {
 }
 
 nav a:hover {
-    color: var(--primary-color);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1.5px;
 }
 
 .form-container {
@@ -222,6 +224,7 @@ button[type="button"]:hover {
 }
 
 .alert {
+    display: block;
     padding: var(--spacing-lg);
     margin-bottom: var(--spacing-xl);
     border: 1px solid transparent;

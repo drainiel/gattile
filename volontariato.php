@@ -28,13 +28,14 @@ $fasce_orarie = [
     <h2 class="auth-title">Prenota Turno di Volontariato</h2>
     <p class="auth-subtitle">Seleziona una fascia oraria. Massimo 2 volontari per fascia.</p>
     
+    <output id="js-error-volontariato" class="alert alert-error" style="display:none; width: 50%; margin: 0 auto 20px auto;"></output>
+    <output id="js-success-volontariato" class="alert alert-success" style="display:none; width: 50%; margin: 0 auto 20px auto;"></output>
+
     <form id="form-volontariato" onsubmit="return prenotaTurno(event)" style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-end; justify-content: center;">
-        <output id="js-error-volontariato" class="alert alert-error" style="display:none; width: 100%;"></output>
-        <output id="js-success-volontariato" class="alert alert-success" style="display:none; width: 100%;"></output>
         
         <input type="hidden" id="utente_id" value="<?php echo htmlspecialchars($utente_id); ?>">
         
-        <div class="form-group" style="flex: 1; max-width: 350px; margin-bottom: 0; text-align: left;">
+        <div class="form-group" style="flex: 1; max-width: 350px; margin-bottom: 0; text-align: left;"> 
             <label for="fascia_oraria">Fascia Oraria</label>
             <select name="fascia_oraria" id="fascia_oraria" required>
                 <option value="">Seleziona...</option>

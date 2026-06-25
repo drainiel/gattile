@@ -12,7 +12,7 @@ function GattiApp() {
         fetch('api/gatti.php')
             .then(response => response.json())
             .then(data => {
-                if(Array.isArray(data)) {
+                if (Array.isArray(data)) {
                     setGatti(data);
                 } else {
                     console.error("Errore fetch gatti:", data);
@@ -30,7 +30,7 @@ function GattiApp() {
 
     const toggleSelezione = (id) => {
         if (!window.IS_LOGGED_IN) return; // Solo gli utenti autenticati possono selezionare
-        
+
         setSelezionati(prev => {
             if (prev.includes(id)) {
                 return prev.filter(catId => catId !== id);
@@ -60,23 +60,21 @@ function GattiApp() {
 
     return (
         <>
-            <div className="controls mb-2" style={{ display: 'flex', gap: '15px', flexWrap: 'wrap', backgroundColor: '#fff', padding: '15px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
-                <div style={{ flex: '1', minWidth: '200px' }}>
-                    <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>Ricerca (nome, descr.):</label>
-                    <input 
-                        type="text" 
-                        value={filtroTesto} 
-                        onChange={(e) => setFiltroTesto(e.target.value)} 
+            <div className="controls mb-2" style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', padding: '10px 0' }}>
+                <div className="form-group" style={{ flex: '1', minWidth: '250px', marginBottom: 0 }}>
+                    <label>Ricerca (nome o descrizione):</label>
+                    <input
+                        type="text"
+                        value={filtroTesto}
+                        onChange={(e) => setFiltroTesto(e.target.value)}
                         placeholder="Cerca un gatto..."
-                        style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc', boxSizing: 'border-box' }}
                     />
                 </div>
-                <div style={{ flex: '1', minWidth: '200px' }}>
-                    <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>Ordina per:</label>
-                    <select 
-                        value={ordinamento} 
+                <div className="form-group" style={{ flex: '1', minWidth: '250px', marginBottom: 0 }}>
+                    <label>Ordina per:</label>
+                    <select
+                        value={ordinamento}
                         onChange={(e) => setOrdinamento(e.target.value)}
-                        style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc', boxSizing: 'border-box' }}
                     >
                         <option value="data_arrivo">Data di arrivo</option>
                         <option value="eta">Età</option>
@@ -86,12 +84,12 @@ function GattiApp() {
             </div>
 
             {gattiFiltrati.length === 0 ? (
-                <p className="text-center">Nessun gatto trovato con questi criteri.</p>
+                <p>Nessun gatto trovato con questi criteri.</p>
             ) : (
                 <ul className="cat-gallery">
                     {gattiFiltrati.map(gatto => (
                         <li key={gatto.id}>
-                            <article 
+                            <article
                                 className={`cat-card ${selezionati.includes(gatto.id) ? 'selected' : ''}`}
                                 onClick={() => toggleSelezione(gatto.id)}
                                 style={{ cursor: window.IS_LOGGED_IN ? 'pointer' : 'default' }}

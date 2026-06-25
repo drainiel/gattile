@@ -57,22 +57,24 @@ require_once 'includes/header.php';
 ?>
 
 <section class="form-container mt-2 mb-2">
-    <h2 class="text-center">Login</h2>
+    <h2 class="auth-title text-center">Login</h2>
     <?php if ($error): ?>
         <output class="alert alert-error"><?php echo htmlspecialchars($error); ?></output>
     <?php endif; ?>
     
     <form method="post" action="login.php" id="form-login">
-        <label class="form-group" for="username">Username
-            <input type="text" name="username" id="username" value="<?php echo htmlspecialchars($saved_username); ?>" required>
-        </label>
-        <label class="form-group" for="password">Password
-            <input type="password" name="password" id="password" value="" required>
-        </label>
-        <label class="form-group">
-            <input type="checkbox" name="ricordami" id="ricordami" <?php echo $saved_username ? 'checked' : ''; ?>>
-            Ricordami (per 72 ore)
-        </label>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" value="<?php echo htmlspecialchars($saved_username); ?>" placeholder="Il tuo username" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" value="" placeholder="Inserisci la tua password" required>
+        </div>
+        <div class="form-group" style="display: flex; flex-direction: row; align-items: center;">
+            <input type="checkbox" name="ricordami" id="ricordami" <?php echo $saved_username ? 'checked' : ''; ?> style="width: auto; margin: 0 10px 0 0; cursor: pointer;">
+            <label for="ricordami" style="margin: 0; font-weight: normal; cursor: pointer; font-size: var(--font-size-sm);">Ricordami (per 72 ore)</label>
+        </div>
         <button type="submit" id="btn-login">Accedi</button>
     </form>
 </section>

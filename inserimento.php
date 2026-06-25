@@ -42,7 +42,8 @@ require_once 'includes/header.php';
 ?>
 
 <section class="form-container mt-2 mb-2" style="max-width: 600px;">
-    <h2 class="text-center">Inserimento Nuovo Gatto</h2>
+    <h2 class="auth-title">Inserimento Nuovo Gatto</h2>
+    <p class="auth-subtitle">Compila la scheda per registrare un nuovo ospite del gattile.</p>
     
     <?php if ($error): ?>
         <output class="alert alert-error"><?php echo htmlspecialchars($error); ?></output>
@@ -54,40 +55,50 @@ require_once 'includes/header.php';
     <form method="post" action="inserimento.php" id="form-inserimento" onsubmit="return validateCatInsertion(event)">
         <output id="js-error-cat" class="alert alert-error" style="display:none;"></output>
         
-        <label class="form-group" for="nome">Nome
-            <input type="text" name="nome" id="nome" required>
-        </label>
-        <label class="form-group" for="descrizione">Descrizione (Carattere e storia)
-            <textarea name="descrizione" id="descrizione" rows="4" required></textarea>
-        </label>
-        <label class="form-group" for="peso">Peso (kg)
-            <input type="number" step="0.01" name="peso" id="peso" required>
-        </label>
-        <label class="form-group" for="colore_mantello">Colore del mantello
-            <input type="text" name="colore_mantello" id="colore_mantello" required>
-        </label>
-        <label class="form-group" for="lunghezza_pelo">Lunghezza del pelo
-            <input type="text" name="lunghezza_pelo" id="lunghezza_pelo" required>
-        </label>
-        <label class="form-group" for="razza">Razza
-            <input type="text" name="razza" id="razza" required>
-        </label>
-        <label class="form-group" for="colore_occhi">Colore degli occhi
-            <input type="text" name="colore_occhi" id="colore_occhi" required>
-        </label>
-        <label class="form-group" for="eta">Età (mesi)
-            <input type="number" name="eta" id="eta" required>
-        </label>
-        <label class="form-group" for="sesso">Sesso
+        <div class="form-group">
+            <label for="nome">Nome</label>
+            <input type="text" name="nome" id="nome" placeholder="Es. Fuffi" required>
+        </div>
+        <div class="form-group">
+            <label for="descrizione">Descrizione (Carattere e storia)</label>
+            <textarea name="descrizione" id="descrizione" rows="4" placeholder="Breve descrizione del carattere, abitudini o storia del gatto..." required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="peso">Peso (kg)</label>
+            <input type="number" step="0.01" name="peso" id="peso" placeholder="Es. 4.5" required>
+        </div>
+        <div class="form-group">
+            <label for="colore_mantello">Colore del mantello</label>
+            <input type="text" name="colore_mantello" id="colore_mantello" placeholder="Es. Tigrato, Nero, Bianco e rosso..." required>
+        </div>
+        <div class="form-group">
+            <label for="lunghezza_pelo">Lunghezza del pelo</label>
+            <input type="text" name="lunghezza_pelo" id="lunghezza_pelo" placeholder="Es. Corto, Medio, Lungo" required>
+        </div>
+        <div class="form-group">
+            <label for="razza">Razza</label>
+            <input type="text" name="razza" id="razza" placeholder="Es. Europeo, Persiano, Meticcio..." required>
+        </div>
+        <div class="form-group">
+            <label for="colore_occhi">Colore degli occhi</label>
+            <input type="text" name="colore_occhi" id="colore_occhi" placeholder="Es. Verdi, Gialli, Azzurri..." required>
+        </div>
+        <div class="form-group">
+            <label for="eta">Età (mesi)</label>
+            <input type="number" name="eta" id="eta" placeholder="Es. 24" required>
+        </div>
+        <div class="form-group">
+            <label for="sesso">Sesso</label>
             <select name="sesso" id="sesso" required>
                 <option value="">Seleziona...</option>
                 <option value="M">Maschio</option>
                 <option value="F">Femmina</option>
             </select>
-        </label>
-        <label class="form-group" for="data_arrivo">Data di arrivo
+        </div>
+        <div class="form-group">
+            <label for="data_arrivo">Data di arrivo</label>
             <input type="date" name="data_arrivo" id="data_arrivo" required>
-        </label>
+        </div>
         
         <button type="submit" id="btn-inserisci">Crea Scheda</button>
     </form>

@@ -8,29 +8,31 @@ $is_logged_in = isset($_SESSION['username']);
 ?>
 
 <section class="mb-2">
-    <h2 class="text-center">I Nostri Gatti</h2>
+    <h2 class="auth-title">I Nostri Gatti</h2>
     <div id="react-root"></div>
 </section>
 
 <?php if ($is_logged_in): ?>
-<section class="form-container mt-2 mb-2">
-    <h3 class="text-center">Prenota una visita</h3>
-    <p>Seleziona i gatti che ti interessano dalla lista sopra e scegli una data.</p>
+<section class="mt-2 mb-2" style="padding: 20px 0;">
+    <h2 class="auth-title">Prenota una visita</h2>
+    <p class="auth-subtitle">Seleziona i gatti che ti interessano dalla lista sopra e scegli una data.</p>
     
-    <form id="form-prenotazione">
-        <output id="js-error-prenotazione" class="alert alert-error" style="display:none;"></output>
-        <output id="js-success-prenotazione" class="alert alert-success" style="display:none;"></output>
+    <form id="form-prenotazione" style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-end;">
+        <output id="js-error-prenotazione" class="alert alert-error" style="display:none; width: 100%;"></output>
+        <output id="js-success-prenotazione" class="alert alert-success" style="display:none; width: 100%;"></output>
         
-        <label class="form-group">Gatti Selezionati:
-            <div id="gatti-selezionati-list" style="font-weight: bold; margin-bottom: 10px; color: var(--primary-color);">Nessun gatto selezionato</div>
+        <div class="form-group" style="flex: 1; min-width: 250px; margin-bottom: 0;">
+            <label>Gatti Selezionati</label>
+            <div id="gatti-selezionati-list" style="font-weight: bold; color: var(--primary-color); margin-top: 4px; padding: 13px 0;">Nessun gatto selezionato</div>
             <input type="hidden" name="gatti_ids" id="gatti_ids" value="">
-        </label>
+        </div>
         
-        <label class="form-group" for="data_visita">Data e Ora della visita
+        <div class="form-group" style="flex: 1; min-width: 250px; margin-bottom: 0;">
+            <label for="data_visita">Data e Ora della visita</label>
             <input type="datetime-local" name="data_visita" id="data_visita" required>
-        </label>
+        </div>
         
-        <button type="button" id="btn-prenota" onclick="inviaPrenotazione()">Prenota Visita</button>
+        <button type="button" id="btn-prenota" onclick="inviaPrenotazione()" style="width: auto; margin-top: 0; padding-left: 40px; padding-right: 40px;">Prenota Visita</button>
     </form>
 </section>
 
@@ -99,7 +101,7 @@ function inviaPrenotazione() {
 <script type="text/babel">
     window.IS_LOGGED_IN = <?php echo $is_logged_in ? 'true' : 'false'; ?>;
 </script>
-<script type="text/babel" src="js/GattiApp.jsx"></script>
+<script type="text/babel" src="js/GattiApp.jsx?v=2"></script>
 
 <?php
 require_once 'includes/footer.php';

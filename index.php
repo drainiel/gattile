@@ -13,17 +13,17 @@ try {
 }
 ?>
 
-<section class="text-center mb-2">
-    <h2>Benvenuti al Gattile Speranza Felina</h2>
-    <p>Ogni anno, centinaia di gatti vengono abbandonati o nascono in strada, necessitando di cure e di una famiglia. Allo stesso tempo, molte persone desiderano accogliere un felino o dedicare il proprio tempo come volontari. Questo sito nasce per facilitare le adozioni e organizzare il supporto attivo alla struttura ospitante.</p>
+<section class="mb-2">
+    <h2 class="auth-title">Benvenuti al Gattile Sabaudo</h2>
+    <p class="auth-subtitle">Ogni anno, centinaia di gatti vengono abbandonati o nascono in strada, necessitando di cure e di una famiglia. Allo stesso tempo, molte persone desiderano accogliere un felino o dedicare il proprio tempo come volontari. Questo sito nasce per facilitare le adozioni e organizzare il supporto attivo alla struttura ospitante.</p>
 </section>
 
 <section class="mt-2">
-    <h3 class="text-center">Nuovi Arrivi</h3>
+    <h2 class="auth-title">Nuovi Arrivi</h2>
     <?php if (isset($errore_db)): ?>
         <output class="alert alert-error"><?php echo htmlspecialchars($errore_db); ?></output>
     <?php elseif (empty($ultimi_gatti)): ?>
-        <p class="text-center">Nessun gatto presente in struttura al momento.</p>
+        <p>Nessun gatto presente in struttura al momento.</p>
     <?php else: ?>
         <ul class="cat-gallery">
             <?php foreach ($ultimi_gatti as $gatto): ?>

@@ -52,7 +52,7 @@ require_once 'includes/header.php';
 ?>
 
 <section class="form-container mt-2 mb-2">
-    <h2 class="text-center">Registrazione</h2>
+    <h2 class="auth-title text-center">Crea un account</h2>
     
     <?php if ($error): ?>
         <output class="alert alert-error"><?php echo htmlspecialchars($error); ?></output>
@@ -64,27 +64,33 @@ require_once 'includes/header.php';
     <form method="post" action="registrazione.php" id="form-registrazione" onsubmit="return validateRegistration(event)">
         <output id="js-error" class="alert alert-error" style="display:none;"></output>
         
-        <label class="form-group" for="nome">Nome
-            <input type="text" name="nome" id="nome" required>
-        </label>
-        <label class="form-group" for="cognome">Cognome
-            <input type="text" name="cognome" id="cognome" required>
-        </label>
-        <label class="form-group" for="indirizzo">Indirizzo
-            <input type="text" name="indirizzo" id="indirizzo" required>
-        </label>
-        <label class="form-group" for="username">Username
-            <input type="text" name="username" id="username" required>
-            <small>Deve iniziare con una lettera.</small>
-        </label>
-        <label class="form-group" for="password">Password
-            <input type="password" name="password" id="password" required>
-            <small>8-16 caratteri, almeno: 1 maiuscola, 1 minuscola, 1 numero, 1 carattere speciale.</small>
-        </label>
-        <label class="form-group" for="conferma_password">Conferma Password
-            <input type="password" name="conferma_password" id="conferma_password" required>
-        </label>
-        <button type="submit" id="btn-registrati">Registrati</button>
+        <div class="form-group">
+            <label for="nome">Nome</label>
+            <input type="text" name="nome" id="nome" placeholder="Il tuo nome" required>
+        </div>
+        <div class="form-group">
+            <label for="cognome">Cognome</label>
+            <input type="text" name="cognome" id="cognome" placeholder="Il tuo cognome" required>
+        </div>
+        <div class="form-group">
+            <label for="indirizzo">Indirizzo</label>
+            <input type="text" name="indirizzo" id="indirizzo" placeholder="Il tuo indirizzo" required>
+        </div>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" placeholder="Scegli un username" required>
+            <small class="form-hint">Deve iniziare con una lettera.</small>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" placeholder="Crea una password" required>
+            <small class="form-hint">8-16 caratteri, almeno: 1 maiuscola, 1 minuscola, 1 numero, 1 carattere speciale.</small>
+        </div>
+        <div class="form-group">
+            <label for="conferma_password">Conferma Password</label>
+            <input type="password" name="conferma_password" id="conferma_password" placeholder="Conferma la tua password" required>
+        </div>
+        <button type="submit" id="btn-registrati">Crea account</button>
     </form>
 </section>
 

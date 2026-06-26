@@ -4,7 +4,7 @@ const { useState, useEffect } = React;
 function GattiApp() {
     const [gatti, setGatti] = useState([]);
     const [filtroTesto, setFiltroTesto] = useState('');
-    const [ordinamento, setOrdinamento] = useState('data_arrivo'); // età, colore_mantello, data_arrivo
+    const [ordinamento, setOrdinamento] = useState('data_arrivo');
     const [selezionati, setSelezionati] = useState([]);
 
     useEffect(() => {

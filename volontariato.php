@@ -43,7 +43,6 @@ $fasce_orarie = [
                 <?php endforeach; ?>
             </select>
         </div>
-        
         <button type="submit" id="btn-prenota-turno" style="width: auto; margin-top: 0; padding-left: 40px; padding-right: 40px;">Prenota Turno</button>
     </form>
 </section>

@@ -46,14 +46,12 @@ function caricaDisponibilita() {
 /**
  * Gestisce il submit del form di prenotazione turno di volontariato.
  *
- * Invia una richiesta POST a api/turni.php con il payload JSON contenente
- * utente_id e fascia_oraria. Gestisce le risposte di successo e di errore
- * (fascia piena, turno duplicato) aggiornando i relativi elementi di feedback
- * nel DOM. Al termine di ogni operazione richiama caricaDisponibilita() per
- * mantenere sincronizzato lo stato della UI con il server.
+ * Invia una richiesta POST a api/turni.php con il payload JSON contenente utente_id e fascia_oraria. 
+ * Gestisce le risposte di successo/errore aggiornando i relativi elementi di feedback nel DOM.
+ * Al termine di ogni operazione richiama caricaDisponibilita() per mantenere sincronizzata UI con server.
  *
- * @param {Event} event Evento 'submit' del form di prenotazione.
- * @return {boolean} Restituisce sempre false per impedire il submit tradizionale del form.
+ * @param {Event} event Evento 'submit' del form di prenotazione. 
+ * @return {boolean} Restituisce sempre false per impedire il submit del form.
  */
 function prenotaTurno(event) {
     event.preventDefault();
@@ -104,4 +102,3 @@ function prenotaTurno(event) {
 
     return false;
 }
-

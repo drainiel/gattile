@@ -1,12 +1,10 @@
-// js/validation.js
+// js/validation.js 
 
 /**
  * Valida il form di registrazione utente lato client.
- *
- * Controlla che lo username inizi con un carattere alfabetico,
- * che la password rispetti i vincoli di complessità e che la
- * password e la conferma coincidano. In caso di errori, blocca
- * il submit del form e visualizza i messaggi nell'elemento #js-error.
+ *.  
+ * Controlla lo username, i vincoli di complessità della password e che la password e la conferma coincidano.
+ * In caso di errori, blocca il submit del form e visualizza i messaggi nell'elemento #js-error.
  *
  * @param {Event} event Evento 'submit' del form di registrazione.
  * @return {boolean} true se la validazione ha successo, false altrimenti.
@@ -31,17 +29,15 @@ function validateRegistration(event) {
     /*
      * Regex per la validazione della complessità della password.
      *
-     *   ^                  — Inizio stringa (ancoraggio).
-     *   (?=.*[a-z])        — Lookahead positivo: richiede almeno una lettera minuscola.
-     *   (?=.*[A-Z])        — Lookahead positivo: richiede almeno una lettera maiuscola.
-     *   (?=.*\d)           — Lookahead positivo: richiede almeno una cifra decimale.
-     *   (?=.*[^A-Za-z0-9]) — Lookahead positivo: richiede almeno un carattere non
-     *                         alfanumerico (carattere speciale).
-     *   .{8,16}            — Corpo: accetta da 8 a 16 caratteri qualsiasi.
+     *   ^                  — ancoraggio.
+     *   (?=.*[a-z])        — almeno una lettera minuscola.
+     *   (?=.*[A-Z])        — almeno una lettera maiuscola.  
+     *   (?=.*\d)           — almeno una cifra decimale.
+     *   (?=.*[^A-Za-z0-9]) — almeno un carattere speciale.
+     *   .{8,16}            — da 8 a 16 caratteri.
      *   $                  — Fine stringa (ancoraggio).
      *
-     * I quattro lookahead sono valutati alla posizione iniziale e verificano
-     * la presenza dei vincoli indipendentemente dall'ordine dei caratteri.
+     * I quattro lookahead verificano la presenza dei vincoli indipendentemente dall'ordine dei caratteri.
      */
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,16}$/;
 
@@ -66,10 +62,8 @@ function validateRegistration(event) {
 /**
  * Valida il form di inserimento di un nuovo gatto lato client.
  *
- * Integra la validazione HTML5 (attributi required) con controlli
- * aggiuntivi sui vincoli di dominio: peso strettamente positivo
- * ed età non negativa. In caso di errori, blocca il submit e
- * visualizza i messaggi nell'elemento #js-error-cat.
+ * Integra la validazione HTML5 (attributi required) con controlli aggiuntivi sui vincoli di dominio: peso strettamente positivo
+ * ed età non negativa. In caso di errori, blocca il submit e visualizza i messaggi nell'elemento #js-error-cat. 
  *
  * @param {Event} event Evento 'submit' del form di inserimento gatto.
  * @return {boolean} true se la validazione ha successo, false altrimenti.

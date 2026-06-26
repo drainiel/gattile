@@ -73,7 +73,7 @@ function inviaPrenotazione() {
         errorDiv.style.display = 'block';
         return;
     }
-     
+    
     if (new Date(dataVisita) < new Date()) { 
         errorDiv.innerHTML = "Non puoi viaggiare indietro nel tempo, inserisci una data futura ;)";
         errorDiv.style.display = 'block';

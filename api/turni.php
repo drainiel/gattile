@@ -6,25 +6,25 @@
  *
  * Metodi supportati:
  *
- *   GET — Restituisce il conteggio dei volontari iscritti per ciascuna fascia oraria.
+ *   GET — Restituisce il conteggio dei volontari iscritti per fascia oraria.
  *     Risposta (200 OK):
  *       [
- *         { "fascia_oraria": string, "iscritti": int },
+ *         { "fascia_oraria": string, "iscritti": int }, 
  *         ...
  *       ]
- *
- *   POST — Registra una nuova prenotazione di turno per un volontario.
+ * 
+ *   POST — Registra nuova prenotazione di turno per volontario.
  *     Payload JSON (Content-Type: application/json):
  *       {
- *         "utente_id":      int    — ID dell'utente autenticato,
- *         "fascia_oraria":  string — Fascia oraria selezionata (es. "09:00-12:00")
+ *         "utente_id":      int    — ID utente autenticato, 
+ *         "fascia_oraria":  string — (es. "09:00-12:00")
  *       }
  *     Risposta (200 OK):
  *       { "success": true }
  *
  * Codici di errore:
  *   400 Bad Request       — Campi obbligatori mancanti nel payload.
- *                            Corpo: { "error": "Dati mancanti." }
+ *                            Corpo: { "error": "Dati mancanti." } 
  *   409 Conflict          — Fascia oraria piena (limite 2 volontari) o turno già prenotato
  *                            dallo stesso utente (violazione vincolo UNIQUE).
  *                            Corpo: { "error": "<messaggio descrittivo>" }
@@ -43,7 +43,7 @@ try {
         // Ritorna le prenotazioni correnti aggregate per fascia oraria
         $stmt = $pdo->query("SELECT fascia_oraria, COUNT(*) as iscritti FROM turni_volontariato GROUP BY fascia_oraria");
         $turni = $stmt->fetchAll();
-        echo json_encode($turni);
+        echo json_encode($turni); 
     } elseif ($method === 'POST') {
         // Ricevi json input
         $input = json_decode(file_get_contents('php://input'), true);

@@ -24,8 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->execute([$username]);
             $user = $stmt->fetch();
             
-            // ATTENZIONE: Controllo password in chiaro (NON SICURO).
-            // In un ambiente di produzione deve essere utilizzato password_verify().
             if ($user && $user['password'] === $password) {
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
@@ -54,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $saved_username = isset($_COOKIE['ricordami_user']) ? base64_decode($_COOKIE['ricordami_user']) : '';
 
 require_once 'includes/header.php';
-?>
+?> 
 
 <section class="form-container mt-2 mb-2">
     <h2 class="auth-title text-center">Login</h2>

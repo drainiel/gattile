@@ -1,4 +1,4 @@
-index.php
+home.php
 login.php,form:form-login,text:username,password:password,checkbox:ricordami,submit:btn-login
 registrazione.php,form:form-registrazione,text:nome,text:cognome,text:indirizzo,text:username,password:password,password:conferma_password,submit:btn-registrati
 inserimento.php,form:form-inserimento,text:nome,textarea:descrizione,number:peso,text:colore_mantello,text:lunghezza_pelo,text:razza,text:colore_occhi,number:eta,select:sesso,date:data_arrivo,submit:btn-inserisci

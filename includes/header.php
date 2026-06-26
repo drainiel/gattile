@@ -19,18 +19,11 @@ if (session_status() === PHP_SESSION_NONE) {
 <body>
     <header>
         <div class="logo-container"> 
-            <h1><a href="index.php" style="color: inherit; text-decoration: none;">Gattile Sabaudo</a></h1>
-        </div>
-        <div class="user-status">
-            <?php if (isset($_SESSION['username'])): ?>
-                <span>Ciao, <?php echo htmlspecialchars($_SESSION['username']); ?></span>
-            <?php else: ?>
-                <span>Non loggato</span>
-            <?php endif; ?>
+            <h1><a href="home.php" style="color: inherit; text-decoration: none;">Gattile Sabaudo</a></h1>
         </div>
         <nav>
             <ul>
-                <li><a href="index.php">Home</a></li>
+                <li><a href="home.php">Home</a></li>
                 <li><a href="gatti.php">I nostri gatti</a></li>
                 <?php if (isset($_SESSION['username'])): ?>
                     <li><a href="volontariato.php">Volontariato</a></li>
@@ -43,6 +36,14 @@ if (session_status() === PHP_SESSION_NONE) {
                     <li><a href="registrazione.php">Registrati</a></li>
                 <?php endif; ?>
             </ul>
+            <div class="user-status" style="margin-left: 15px;">
+                <span style="margin-right: 15px; color: var(--text-light);">|</span>
+                <?php if (isset($_SESSION['username'])): ?>
+                    <span>Ciao, <?php echo htmlspecialchars($_SESSION['username']); ?></span>
+                <?php else: ?>
+                    <span>Non loggato</span>
+                <?php endif; ?>
+            </div>
         </nav>
     </header>
     <main>

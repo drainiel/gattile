@@ -1,5 +1,5 @@
 <?php
-// index.php
+// home.php
 require_once 'db.php';
 require_once 'includes/header.php';
 

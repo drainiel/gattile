@@ -4,7 +4,7 @@ require_once 'db.php';
 session_start();
 
 if (!isset($_SESSION['username']) || !isset($_SESSION['is_admin']) || $_SESSION['is_admin'] == false) {
-    header('Location: index.php');
+    header('Location: home.php');
     exit;
 }
 

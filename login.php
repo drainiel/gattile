@@ -4,7 +4,7 @@ require_once 'db.php';
 session_start();
 
 if (isset($_SESSION['username'])) {
-    header('Location: index.php');
+    header('Location: home.php');
     exit;
 }
 
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     setcookie('ricordami_user', '', time() - 3600, '/');
                 }
                 
-                header('Location: index.php');
+                header('Location: home.php');
                 exit;
             } else {
                 $error = "Credenziali non valide.";

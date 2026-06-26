@@ -1,5 +1,36 @@
 <?php
-// api/turni.php
+/**
+ * API REST — Gestione Turni di Volontariato
+ *
+ * Endpoint: api/turni.php
+ *
+ * Metodi supportati:
+ *
+ *   GET — Restituisce il conteggio dei volontari iscritti per ciascuna fascia oraria.
+ *     Risposta (200 OK):
+ *       [
+ *         { "fascia_oraria": string, "iscritti": int },
+ *         ...
+ *       ]
+ *
+ *   POST — Registra una nuova prenotazione di turno per un volontario.
+ *     Payload JSON (Content-Type: application/json):
+ *       {
+ *         "utente_id":      int    — ID dell'utente autenticato,
+ *         "fascia_oraria":  string — Fascia oraria selezionata (es. "09:00-12:00")
+ *       }
+ *     Risposta (200 OK):
+ *       { "success": true }
+ *
+ * Codici di errore:
+ *   400 Bad Request       — Campi obbligatori mancanti nel payload.
+ *                            Corpo: { "error": "Dati mancanti." }
+ *   409 Conflict          — Fascia oraria piena (limite 2 volontari) o turno già prenotato
+ *                            dallo stesso utente (violazione vincolo UNIQUE).
+ *                            Corpo: { "error": "<messaggio descrittivo>" }
+ *   500 Internal Server Error — Errore generico del server o del database.
+ *                            Corpo: { "error": "<messaggio>" }
+ */
 require_once '../db.php';
 header('Content-Type: application/json');
 

@@ -1,7 +1,21 @@
 <?php
 // db.php
-// Funzione per connettersi al database con privilegi specifici
 
+/**
+ * Factory per la connessione al database MySQL tramite PDO.
+ *
+ * Implementa un meccanismo di controllo degli accessi basato su ruoli (RBAC)
+ * a livello di database: ogni ruolo corrisponde a un utente MySQL con
+ * privilegi differenziati (sola lettura, modifica, inserimento).
+ *
+ * @param string $role Ruolo richiesto. Valori ammessi: 'lecture' (sola lettura),
+ *                     'modifier' (lettura/scrittura), 'registrator' (inserimento utenti).
+ *                     Default: 'lecture'.
+ * @return \PDO Istanza PDO configurata con error mode EXCEPTION, fetch ASSOC
+ *              e prepared statements nativi (emulate_prepares disabilitato).
+ * @throws \Exception Se il ruolo specificato non è presente nella mappa delle credenziali.
+ * @throws \PDOException Se la connessione al database fallisce.
+ */
 function getDBConnection($role = 'lecture') {
     $host = 'localhost';
     $db   = 'gattile_db';

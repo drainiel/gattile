@@ -3,6 +3,9 @@
 require_once 'db.php';
 session_start();
 
+// Percorso del file JSON che associa token opachi agli username (funzionalità "Ricordami")
+define('TOKENS_FILE', __DIR__ . '/data/tokens.json');
+
 if (isset($_SESSION['username'])) {
     header('Location: home.php');
     exit;
@@ -30,10 +33,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['is_admin'] = (bool)$user['is_admin'];
                 
                 if ($ricordami) {
-                    // Cookie valido per 72 ore (codificato in base64)
-                    setcookie('ricordami_user', base64_encode($username), time() + (72 * 3600), '/');
+                    // Genera un token opaco e lo associa allo username nel file JSON lato server
+                    $token = bin2hex(random_bytes(16));
+
+                    $tokens = [];
+                    if (file_exists(TOKENS_FILE)) {
+                        $json = file_get_contents(TOKENS_FILE);
+                        $tokens = json_decode($json, true) ?? [];
+                    }
+                    $tokens[$token] = $username;
+                    file_put_contents(TOKENS_FILE, json_encode($tokens, JSON_PRETTY_PRINT));
+
+                    // Il cookie contiene solo il token opaco, non lo username (valido 72 ore)
+                    setcookie('ricordami_user', $token, time() + (72 * 3600), '/');
                 } else {
-                    // Rimuove il cookie se non selezionato
+                    // Rimuove il cookie e l'eventuale token dal file JSON
+                    if (isset($_COOKIE['ricordami_user'])) {
+                        $oldToken = $_COOKIE['ricordami_user'];
+                        if (file_exists(TOKENS_FILE)) {
+                            $tokens = json_decode(file_get_contents(TOKENS_FILE), true) ?? [];
+                            unset($tokens[$oldToken]);
+                            file_put_contents(TOKENS_FILE, json_encode($tokens, JSON_PRETTY_PRINT));
+                        }
+                    }
                     setcookie('ricordami_user', '', time() - 3600, '/');
                 }
                 
@@ -48,8 +70,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Pre-compila username decodificandolo dal cookie se presente
-$saved_username = isset($_COOKIE['ricordami_user']) ? base64_decode($_COOKIE['ricordami_user']) : '';
+// Pre-compila il campo username risolvendo il token opaco dal cookie tramite il file JSON
+$saved_username = '';
+if (isset($_COOKIE['ricordami_user'])) {
+    $token = $_COOKIE['ricordami_user'];
+    if (file_exists(TOKENS_FILE)) {
+        $tokens = json_decode(file_get_contents(TOKENS_FILE), true) ?? [];
+        if (isset($tokens[$token])) {
+            $saved_username = $tokens[$token];
+        }
+    }
+}
 
 require_once 'includes/header.php';
 ?> 

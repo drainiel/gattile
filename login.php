@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $tokens = json_decode($json, true) ?? [];
                     }
                     $tokens[$token] = $username;
-                    file_put_contents(TOKENS_FILE, json_encode($tokens, JSON_PRETTY_PRINT));
+                    file_put_contents(TOKENS_FILE, json_encode($tokens, JSON_PRETTY_PRINT), LOCK_EX);
 
                     // Il cookie contiene solo il token opaco, non lo username (valido 72 ore)
                     setcookie('ricordami_user', $token, time() + (72 * 3600), '/');
@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         if (file_exists(TOKENS_FILE)) {
                             $tokens = json_decode(file_get_contents(TOKENS_FILE), true) ?? [];
                             unset($tokens[$oldToken]);
-                            file_put_contents(TOKENS_FILE, json_encode($tokens, JSON_PRETTY_PRINT));
+                            file_put_contents(TOKENS_FILE, json_encode($tokens, JSON_PRETTY_PRINT), LOCK_EX);
                         }
                     }
                     setcookie('ricordami_user', '', time() - 3600, '/');

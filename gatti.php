@@ -86,8 +86,28 @@ function inviaPrenotazione() {
         return;
     }
      
-    successDiv.innerHTML = "Visita prenotata con successo per " + dataVisita + " con i gatti: " + selectedCatsData.map(c => c.nome).join(', ');
-    successDiv.style.display = 'block';
+    fetch('api/prenotazioni.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            data_visita: dataVisita,
+            gatti_ids: selectedCatsData.map(c => c.id)
+        })
+    })
+    .then(response => response.json().then(data => ({ ok: response.ok, data })))
+    .then(({ ok, data }) => {
+        if (ok) {
+            successDiv.innerHTML = "Visita prenotata con successo!";
+            successDiv.style.display = 'block';
+        } else {
+            errorDiv.innerHTML = data.error || "Errore durante la prenotazione.";
+            errorDiv.style.display = 'block';
+        }
+    })
+    .catch(() => {
+        errorDiv.innerHTML = "Errore di rete, riprova.";
+        errorDiv.style.display = 'block';
+    });
 }
 </script>
 

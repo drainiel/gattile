@@ -1,2 +1,2 @@
 # Impedisce l'accesso diretto ai file in questa directory via browser
-Deny from all
+Deny from all 

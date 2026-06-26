@@ -12,8 +12,7 @@ $utente_id = $_SESSION['user_id'];
 
 require_once 'includes/header.php';
 
-// Generiamo alcune fasce orarie a partire da date specifiche presenti nel DB
-// Il DB fornito ha turni il 2026-06-05, creiamo fasce attorno a quelle date per testabilità
+// Fasce orarie a partire da date specifiche presenti nel DB 
 $fasce_orarie = [
     '2026-06-05 09:00:00',
     '2026-06-05 11:00:00',

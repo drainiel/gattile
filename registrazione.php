@@ -12,8 +12,6 @@ $error = '';
 $success = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // In un'applicazione reale la validazione server-side dovrebbe rispecchiare quella client-side.
-    // Qui aggiungiamo un controllo di base e l'inserimento, delegando al JS i controlli stringenti come richiesto.
     $nome = trim($_POST['nome'] ?? '');
     $cognome = trim($_POST['cognome'] ?? '');
     $indirizzo = trim($_POST['indirizzo'] ?? '');
@@ -27,14 +25,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = "Tutti i campi sono obbligatori.";
     } else {
         try {
-            // Usa il privilegio minimo: solo INSERIMENTO
             $pdo = getDBConnection('registrator');
-            
-            // Verifica duplicati? L'utente registrator ha solo INSERT. Se il vincolo UNIQUE fallisce, genererà eccezione.
-            $stmt = $pdo->prepare("INSERT INTO utenti (nome, cognome, indirizzo, username, password, is_admin) VALUES (?, ?, ?, ?, ?, 0)");
-            
-            // ATTENZIONE: Salvataggio password in chiaro (NON SICURO). 
-            // In un ambiente di produzione deve essere utilizzato password_hash().
+            $stmt = $pdo->prepare("INSERT INTO utenti (nome, cognome, indirizzo, username, password, is_admin) VALUES (?, ?, ?, ?, ?, 0)");            
             $stmt->execute([$nome, $cognome, $indirizzo, $username, $password]);
             
             $success = "Registrazione completata con successo! Ora puoi effettuare il login.";

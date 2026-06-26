@@ -1,0 +1,28 @@
+Progetto del Sito: Gattile Sabaudo
+
+DESCRIZIONE GENERALE
+
+Il sito "Gattile Sabaudo" è un'applicazione web sviluppata per gestire le attività di una struttura ospitante per gatti. Il sito permette agli utenti visitatori di visualizzare gli ultimi gatti arrivati e la galleria completa. Gli utenti registrati possono prenotare visite conoscitive selezionando specifici animali e prenotare turni di volontariato. Inoltre, gli amministratori della piattaforma possono inserire nuovi gatti nel sistema.
+
+SCELTE PROGETTUALI E NORME DI BUONA PROGRAMMAZIONE
+
+1. Separation of Concerns
+La struttura dell'applicazione suddivide i compiti in file specifici:
+- I componenti comuni dell'interfaccia (header, footer) sono estratti nella cartella "includes" e inclusi nelle varie pagine. Questo evita la duplicazione del codice e centralizza le modifiche strutturali.
+- La gestione della connessione al database è centralizzata in `db.php`, fornendo una funzione standardizzata `getDBConnection()` al resto dell'applicazione.
+
+2. Principio del Minimo Privilegio nel Database
+L'applicazione implementa connessioni differenziate in base al contesto e all'operazione necessaria. In `db.php` e nei vari file (come `home.php` o `inserimento.php`), la connessione viene effettuata specificando un ruolo (es. 'lecture', 'registrator', 'modifier'). Questo significa che una pagina che deve solo mostrare i gatti si collega con credenziali limitate alla sola lettura.
+
+3. Evitare SQL Injection tramite Prepared Statements
+Tutte le interazioni con il database che coinvolgono input dell'utente (come il login, la registrazione e l'inserimento gatti) utilizzano l'interfaccia PDO con Prepared Statements (metodi `prepare()` e `execute()`). Questo approccio separa la logica della query dai dati immessi, neutralizzando il rischio di attacchi SQL Injection, rispettando le moderne pratiche di sicurezza.
+
+4. Validazione Client-Side e Server-Side
+- Lato Client (JavaScript): Controlli istantanei (es. `inviaPrenotazione` in `gatti.php` verifica che la data non sia nel passato) forniscono feedback immediato all'utente senza necessità di ricaricare la pagina, riducendo il carico del server e migliorando la User Experience.
+- Lato Server (PHP): I dati vengono nuovamente validati all'arrivo sul server (es. in `inserimento.php` o `registrazione.php`) per evitare che richieste manipolate tramite strumenti esterni (es. Postman o la console del browser) possano corrompere il database o introdurre dati errati.
+
+5. Ibridazione Tecnologica (Uso di React)
+La pagina della galleria (`gatti.php`) utilizza la libreria React per renderizzare e gestire in modo dinamico i gatti. Invece di far generare tutto l'HTML al server in PHP, React gestisce lo stato dell'interfaccia (come la selezione di uno o più gatti). 
+
+6. Gestione Sicura degli Accessi (Sessioni)
+L'accesso ad aree riservate (prenotazione, volontariato, inserimento) è controllato tramite l'avvio delle sessioni PHP (`session_start()`). All'inizio di ogni pagina riservata, viene verificata l'esistenza della variabile di sessione (e, ove necessario, del flag `is_admin`). Questo protegge l'infrastruttura impedendo che utenti non autorizzati o non autenticati possano raggiungere URL diretti di funzionalità sensibili.

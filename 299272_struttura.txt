@@ -5,5 +5,3 @@ inserimento.php,form:form-inserimento,text:nome,textarea:descrizione,number:peso
 gatti.php,form:form-prenotazione,hidden:gatti_ids,datetime-local:data_visita,button:btn-prenota
 volontariato.php,form:form-volontariato,hidden:utente_id,select:fascia_oraria,submit:btn-prenota-turno
 logout.php
-api/gatti.php
-api/turni.php

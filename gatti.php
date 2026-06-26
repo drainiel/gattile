@@ -73,14 +73,19 @@ function inviaPrenotazione() {
         errorDiv.style.display = 'block';
         return;
     }
+     
+    if (new Date(dataVisita) < new Date()) { 
+        errorDiv.innerHTML = "Non puoi viaggiare indietro nel tempo, inserisci una data futura ;)";
+        errorDiv.style.display = 'block';
+        return;
+    }
     
     if (selectedCatsData.length === 0) {
         errorDiv.innerHTML = "Seleziona almeno un gatto dalla galleria prima di prenotare.";
         errorDiv.style.display = 'block';
         return;
     }
-    
-    // In una versione completa qui ci sarebbe una chiamata fetch per salvare la visita_gatti e prenotazioni_visite nel DB
+     
     successDiv.innerHTML = "Visita prenotata con successo per " + dataVisita + " con i gatti: " + selectedCatsData.map(c => c.nome).join(', ');
     successDiv.style.display = 'block';
 }

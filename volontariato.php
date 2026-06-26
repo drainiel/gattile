@@ -3,14 +3,11 @@
 require_once 'db.php';
 session_start();
 
-if (!isset($_SESSION['username'])) {
-    header('Location: home.php');
-    exit;
+$loggato = isset($_SESSION['username']);
+
+if ($loggato) {
+    $utente_id = $_SESSION['user_id'];
 }
-
-$utente_id = $_SESSION['user_id'];
-
-require_once 'includes/header.php';
 
 // Fasce orarie a partire da date specifiche presenti nel DB 
 $fasce_orarie = [
@@ -21,8 +18,15 @@ $fasce_orarie = [
     '2026-06-06 11:00:00',
     '2026-06-06 15:00:00'
 ];
+
+require_once 'includes/header.php';
 ?>
 
+<?php if (!$loggato): ?>
+    <aside class="alert alert-warning text-center mt-2 mb-2">
+        Per prenotare una visita conoscitiva o fare volontariato, <a href="login.php">effettua l'accesso</a> o <a href="registrazione.php">registrati</a>.
+    </aside>
+<?php else: ?>
 <section class="mt-2 mb-2" style="padding: 20px 0; text-align: center;">
     <h2 class="auth-title">Prenota Turno di Volontariato</h2>
     <p class="auth-subtitle">Seleziona una fascia oraria. Massimo 2 volontari per fascia.</p>
@@ -48,6 +52,7 @@ $fasce_orarie = [
 </section>
 
 <script src="js/volontariato.js"></script>
+<?php endif; ?>
 
 <?php
 require_once 'includes/footer.php';

@@ -28,8 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         try {
             $pdo = getDBConnection('modifier');
-            $stmt = $pdo->prepare("INSERT INTO gatti (nome, descrizione, peso, colore_mantello, lunghezza_pelo, razza, colore_occhi, eta, sesso, data_arrivo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([$nome, $descrizione, $peso, $colore_mantello, $lunghezza_pelo, $razza, $colore_occhi, $eta, $sesso, $data_arrivo]);
+            $stmt = $pdo->prepare("INSERT INTO gatti (nome, descrizione, peso, colore_mantello, lunghezza_pelo, razza, colore_occhi, eta, sesso, data_arrivo, foto) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$nome, $descrizione, $peso, $colore_mantello, $lunghezza_pelo, $razza, $colore_occhi, $eta, $sesso, $data_arrivo, 'images/placeholder.jpg']);
             
             $success = "Nuovo gatto inserito con successo!";
         } catch (Exception $e) {

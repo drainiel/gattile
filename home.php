@@ -30,7 +30,8 @@ try {
                 <li>
                     <a href="gatti.php" style="text-decoration: none; color: inherit; display: block;">
                         <article class="cat-card">
-                            <figure class="cat-img" style="background: url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><text y=\'50\' x=\'50\' text-anchor=\'middle\' dominant-baseline=\'middle\' font-size=\'40\'>🐈</text></svg>') center/cover; background-color: #eee;"></figure>
+                            <?php $foto = !empty($gatto['foto']) ? $gatto['foto'] : 'images/placeholder.jpg'; ?>
+                            <figure class="cat-img" style="background: url('<?php echo htmlspecialchars($foto); ?>') center/cover; background-color: #eee;"></figure>
                             <div class="cat-info">
                                 <h3><?php echo htmlspecialchars($gatto['nome']); ?></h3>
                                 <p><strong>Età:</strong> <?php echo htmlspecialchars($gatto['eta']); ?> mesi</p>

@@ -122,11 +122,12 @@ function inviaPrenotazione() {
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
 <script src="https://unpkg.com/@babel/standalone@7.21.0/babel.min.js"></script>
 
-<!-- Componente React -->
-<script type="text/babel">
+<script>
     window.IS_LOGGED_IN = <?php echo $is_logged_in ? 'true' : 'false'; ?>;
+    fetch('js/GattiApp.jsx?v=2')
+        .then(r => r.text())
+        .then(code => eval(Babel.transform(code, { presets: ['react'] }).code));
 </script>
-<script type="text/babel" src="js/GattiApp.jsx?v=2"></script>
 
 <?php
 require_once 'includes/footer.php';

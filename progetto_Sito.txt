@@ -2,32 +2,129 @@ Progetto del Sito: Gattile Sabaudo
 
 DESCRIZIONE GENERALE
 
-Il sito "Gattile Sabaudo" è un'applicazione web sviluppata per gestire le attività di una struttura ospitante per gatti. Il sito permette agli utenti visitatori di visualizzare gli ultimi gatti arrivati e la galleria completa. Gli utenti registrati possono prenotare visite conoscitive selezionando specifici animali e prenotare turni di volontariato. Inoltre, gli amministratori della piattaforma possono inserire nuovi gatti nel sistema.
+Il sito "Gattile Sabaudo" è un'applicazione web sviluppata per gestire le attività di una
+struttura ospitante per gatti. Il sito permette agli utenti visitatori di visualizzare gli
+ultimi gatti arrivati e la galleria completa. Gli utenti registrati possono prenotare visite
+conoscitive selezionando specifici animali e prenotare turni di volontariato. Gli
+amministratori possono inserire nuovi gatti nel sistema tramite un'apposita area riservata.
+
+ARCHITETTURA DELLA COMUNICAZIONE TRA REACT, VANILLA JS E BACKEND PHP
+
+La pagina 'gatti.php' è il punto più articolato del sito dal punto di vista architetturale,
+poiché ospita tre livelli tecnologici distinti che devono cooperare senza accoppiamento diretto.
+
+Livello 1: PHP 
+PHP si occupa esclusivamente di generare l'HTML iniziale della pagina e di iniettare nel DOM
+una variabile globale JavaScript 'window.IS_LOGGED_IN' che riflette lo stato di sessione
+dell'utente corrente.
+
+Livello 2: Componente React 
+Il componente 'GattiApp', definito in 'js/GattiApp.jsx', viene caricato nella pagina tramite
+fetch del file JSX e trasformazione in-browser con Babel standalone. All'avvio, il componente
+esegue una chiamata fetch asincrona verso 'api/gatti.php', un endpoint REST in PHP che legge
+la tabella 'gatti' e restituisce un array JSON. React gestisce autonomamente filtraggio/ordinamento 
+e selezione multipla delle card da parte dell'utente autenticato.
+
+La scelta di React per questa sezione è motivata dalla natura altamente interattiva del
+componente, ogni modifica al filtro o all'ordinamento comporta un re-render della lista,
+operazione che in Vanilla JS richiederebbe una manipolazione manuale e verbosa del DOM.
+React gestisce questo in modo dichiarativo e prevedibile tramite useState/useEffect.
+
+Comunicazione React → Vanilla JS tramite CustomEvent
+Quando l'utente seleziona/deseleziona una card, React aggiorna un form di
+prenotazione esterno al suo albero di componenti. La comunicazione avviene tramite un evento
+DOM personalizzato ('CustomEvent') chiamato 'catsSelected', emesso sul 'document' con nel
+campo 'detail' l'array aggiornato degli oggetti-gatto selezionati.
+
+Dal lato Vanilla JS, un 'addEventListener('catsSelected', ...)' sul 'document' riceve il
+payload e aggiorna il campo hidden 'gatti_ids' e la lista testuale visibile all'utente.
+
+Questa scelta è motivata da tre ragioni:
+  a- Disaccoppiamento: React non conosce il DOM esterno e non vi scrive mai direttamente;
+     il Vanilla JS non conosce l'implementazione interna del componente React.
+  b- Unidirezionalità: il flusso di dati è chiaro (React è la sorgente, Vanilla JS è il
+     ricevitore), senza riferimenti circolari o stato condiviso.
+  c- Standard Web: CustomEvent è un'API nativa del browser, senza dipendenze aggiuntive.
+
+Livello 3: Vanilla JS
+I form di prenotazione visita ('gatti.php') e di volontariato ('volontariato.php') sono
+gestiti interamente da Vanilla JS, senza coinvolgere React. Ogni form comunica con il backend
+tramite chiamate fetch asincrone verso endpoint REST dedicati:
+
+  - 'api/prenotazioni.php' (POST): riceve 'data_visita' e 'gatti_ids' in formato JSON,
+    verifica l'autenticazione tramite sessione PHP lato server e registra la prenotazione.
+  - 'api/turni.php' (GET): all'apertura della pagina volontariato, Vanilla JS interroga
+    questo endpoint per ottenere il conteggio degli iscritti per fascia oraria; le fasce
+    piene (>= 2 iscritti) vengono disabilitate nell'elemento <select> prima ancora che
+    l'utente tenti di prenotarsi.
+  - 'api/turni.php' (POST): alla sottomissione del form, Vanilla JS invia la fascia oraria
+    scelta; il server esegue nuovamente il controllo sul limite e, in caso di violazione,
+    restituisce una risposta JSON con codice HTTP 409 (Conflict) che il client intercetta
+    e mostra come messaggio di errore esplicito.
+
 
 SCELTE PROGETTUALI E NORME DI BUONA PROGRAMMAZIONE
 
-1. Separation of Concerns  
+1. Separation of Concerns
 La struttura dell'applicazione suddivide i compiti in file specifici:
-- I componenti comuni dell'interfaccia (header, footer) sono estratti nella cartella "includes" e inclusi nelle varie pagine. Questo evita la duplicazione del codice e centralizza le modifiche strutturali.
-- La gestione della connessione al database è centralizzata in 'db.php', fornendo una funzione standardizzata 'getDBConnection()' al resto dell'applicazione.
+- I componenti comuni dell'interfaccia (header, footer) sono estratti nella cartella
+  "includes" e inclusi nelle varie pagine. Questo evita la duplicazione del codice e
+  centralizza le modifiche strutturali.
+- La gestione della connessione al database è centralizzata in 'db.php', fornendo una
+  funzione standardizzata 'getDBConnection()' al resto dell'applicazione.
+- Gli endpoint REST sono separati nella cartella 'api/', mantenendo distinta la logica
+  di business dalla presentazione HTML.
 
-2. Principio del Minimo Privilegio nel Database
-L'applicazione implementa connessioni differenziate in base al contesto e all'operazione necessaria. In 'db.php' e nei vari file (come 'home.php' o 'inserimento.php'), la connessione viene effettuata specificando un ruolo (es. 'lecture', 'registrator', 'modifier'). Questo significa che una pagina che deve solo mostrare i gatti si collega con credenziali limitate alla sola lettura.
+2. Principio del Minimo Privilegio nel Database (Least Privilege)
+L'applicazione definisce tre utenti MySQL distinti in 'db.php', ognuno con privilegi
+commisurati all'operazione che deve svolgere:
 
-3. Evitare SQL Injection tramite Prepared Statements 
-Tutte le interazioni con il database che coinvolgono input dell'utente (come il login, la registrazione e l'inserimento gatti) utilizzano l'interfaccia PDO con Prepared Statements (metodi 'prepare()' e 'execute()'). Questo approccio separa la logica della query dai dati immessi, neutralizzando il rischio di attacchi SQL Injection, rispettando le moderne pratiche di sicurezza.
+  - 'lecture' (solo SELECT): usato in 'home.php', 'login.php' e 'api/gatti.php', ovvero
+    in tutti i contesti che richiedono unicamente la lettura di dati. Se queste pagine
+    fossero compromesse da una vulnerabilità non prevista, un attaccante non potrebbe
+    modificare o cancellare dati tramite questo utente.
+
+  - 'registrator' (solo INSERT sulla tabella utenti): usato esclusivamente in
+    'registrazione.php'. Anche se il form di registrazione fosse soggetto ad un attacco,
+    l'utente DB associato non potrebbe alterare record esistenti né leggere dati sensibili
+    di altre tabelle.
+
+  - 'modifier' (SELECT + INSERT + UPDATE + DELETE): usato nelle API che devono scrivere
+    dati applicativi ('api/prenotazioni.php', 'api/turni.php', 'inserimento.php'). Il suo
+    uso è limitato alle sole pagine che ne hanno effettiva necessità.
+
+In nessun caso viene usato l'utente amministratore di sistema del database. Questa scelta
+rispetta il principio di difesa in profondità: anche in caso di SQL Injection non bloccata
+dai prepared statements, i danni sarebbero circoscritti ai privilegi dell'utente in uso.
+
+3. Evitare SQL Injection tramite Prepared Statements
+Tutte le interazioni con il database che coinvolgono input dell'utente utilizzano l'interfaccia
+PDO con Prepared Statements (metodi 'prepare()' e 'execute()'). Questo approccio separa
+strutturalmente la logica della query dai dati immessi, neutralizzando il rischio di SQL
+Injection indipendentemente dal contenuto dell'input.
 
 4. Validazione Client-Side e Server-Side
-- Lato Client (JavaScript): Controlli istantanei (es. 'inviaPrenotazione' in 'gatti.php' verifica che la data non sia nel passato) forniscono feedback immediato all'utente senza necessità di ricaricare la pagina, riducendo il carico del server e migliorando la User Experience.
-- Lato Server (PHP): I dati vengono nuovamente validati all'arrivo sul server (es. in 'inserimento.php' o 'registrazione.php') per evitare che richieste manipolate tramite strumenti esterni (es. Postman o la console del browser) possano corrompere il database o introdurre dati errati.
+- Lato Client (JavaScript): controlli istantanei (es. 'inviaPrenotazione' in 'gatti.php'
+  verifica che la data non sia nel passato; 'caricaDisponibilita' in 'volontariato.js'
+  disabilita visivamente le fasce orarie piene) forniscono feedback immediato all'utente
+  senza ricaricare la pagina, migliorando la User Experience.
+- Lato Server (PHP): i dati vengono nuovamente validati all'arrivo sul server per evitare
+  che richieste manipolate tramite strumenti esterni (es. Postman, curl) possano corrompere
+  il database. Il backend non si fida mai dell'esito della validazione client.
 
-5. Uso di React
-La pagina della galleria ('gatti.php') usa React per gestire dinamicamente la visualizzazione dei gatti, invece di lasciare che sia PHP a generare tutto l'HTML lato server.
-Per passare i dati dei gatti selezionati al form di prenotazione ho usato un 'CustomEvent' chiamato 'catsSelected': ogni volta che l'utente cambia la selezione, React dispatcha questo evento sul 'document' con l'array aggiornato dei gatti nel campo 'detail'. Dal lato Vanilla JS, un 'addEventListener' sullo stesso 'document' legge il payload e aggiorna i campi hidden del form.
-Ho scelto questo approccio per tenere i due script separati e indipendenti: React resta nel suo 'react-root' senza toccare il DOM esterno, e il Vanilla JS non deve sapere nulla dell'implementazione interna del componente.
+5. Gestione Sicura degli Accessi (Sessioni)
+L'accesso ad aree riservate (prenotazione, volontariato, inserimento) è controllato tramite
+sessioni PHP ('session_start()'). All'inizio di ogni pagina riservata viene verificata
+l'esistenza della variabile di sessione e, ove necessario, del flag 'is_admin'. Questo
+impedisce che utenti non autenticati raggiungano URL diretti di funzionalità sensibili,
+anche senza passare dall'interfaccia grafica.
 
-6. Gestione Sicura degli Accessi (Sessioni)
-L'accesso ad aree riservate (prenotazione, volontariato, inserimento) è controllato tramite l'avvio delle sessioni PHP ('session_start()'). All'inizio di ogni pagina riservata, viene verificata l'esistenza della variabile di sessione (e, ove necessario, del flag 'is_admin'). Questo protegge l'infrastruttura impedendo che utenti non autorizzati o non autenticati possano raggiungere URL diretti di funzionalità sensibili.  
-
-7. Funzionalità "Ricordami" con Token Opaco
-La funzione "Ricordami" in 'login.php' utilizza un token opaco generato tramite 'bin2hex(random_bytes(16))' invece di memorizzare direttamente lo username nel cookie. L'associazione tra token e username viene mantenuta lato server in un file JSON ('data/tokens.json'), protetto da accesso diretto via browser tramite un file '.htaccess'. Il cookie contiene esclusivamente il token randomico: all'apertura della pagina di login, il sistema legge il file JSON e, se il token è presente, precompila il campo username. Questa scelta evita di esporre l'username nel cookie. 
+6. Funzionalità "Ricordami" con Token Opaco
+La funzione "Ricordami" in 'login.php' utilizza un token opaco generato tramite
+'bin2hex(random_bytes(16))' invece di memorizzare direttamente lo username nel cookie.
+L'associazione tra token e username viene mantenuta lato server in 'data/tokens.json'.
+Il cookie contiene esclusivamente il token randomico: all'apertura della pagina di login,
+il sistema risolve il token nel file JSON e, se presente, precompila il campo username
+lasciando vuoto il campo password. Questa scelta evita di esporre l'username nel cookie
+e garantisce che l'accesso effettivo rimanga sempre subordinato alla verifica della password
+tramite sessione PHP.

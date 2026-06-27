@@ -35,9 +35,7 @@ require_once 'includes/header.php';
     <div id="js-success-volontariato" class="alert alert-success" style="display:none; width: 50%; margin: 0 auto 20px auto;"></div>
 
     <form id="form-volontariato" onsubmit="return prenotaTurno(event)" style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-end; justify-content: center;">
-        
-        <input type="hidden" id="utente_id" value="<?php echo htmlspecialchars($utente_id); ?>">
-         
+        <input type="hidden" id="utente_id" value="<?php echo htmlspecialchars($utente_id); ?>">   
         <div class="form-group" style="flex: 1; max-width: 350px; margin-bottom: 0; text-align: left;"> 
             <label for="fascia_oraria">Fascia Oraria</label>
             <select name="fascia_oraria" id="fascia_oraria" required>
@@ -50,7 +48,7 @@ require_once 'includes/header.php';
         <button type="submit" id="btn-prenota-turno" style="width: auto; margin-top: 0; padding-left: 40px; padding-right: 40px;">Prenota Turno</button>
     </form>
 </section>
-
+ 
 <script src="js/volontariato.js"></script>
 <?php endif; ?>
 

@@ -3,5 +3,5 @@ login.php,form:form-login,text:username,password:password,checkbox:ricordami,sub
 registrazione.php,form:form-registrazione,text:nome,text:cognome,text:indirizzo,text:username,password:password,password:conferma_password,submit:btn-registrati
 inserimento.php,form:form-inserimento,text:nome,textarea:descrizione,number:peso,text:colore_mantello,text:lunghezza_pelo,text:razza,text:colore_occhi,number:eta,select:sesso,date:data_arrivo,submit:btn-inserisci
 gatti.php,form:form-prenotazione,hidden:gatti_ids,datetime-local:data_visita,button:btn-prenota
-volontariato.php,form:form-volontariato,hidden:utente_id,select:fascia_oraria,submit:btn-prenota-turno
+volontariato.php,form:form-volontariato,select:fascia_oraria,submit:btn-prenota-turno
 logout.php

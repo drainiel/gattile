@@ -8,7 +8,7 @@ $is_logged_in = isset($_SESSION['username']);
 ?>
 
 <section class="mb-2">
-    <h2 class="auth-title">I Nostri Gatti</h2>
+    <h2 class="auth-title">I nostri gatti</h2>
     <div id="react-root"></div>
 </section>
 

@@ -6,7 +6,7 @@ Il sito "Gattile Sabaudo" è un'applicazione web sviluppata per gestire le attiv
 
 SCELTE PROGETTUALI E NORME DI BUONA PROGRAMMAZIONE
 
-1. Separation of Concerns
+1. Separation of Concerns  
 La struttura dell'applicazione suddivide i compiti in file specifici:
 - I componenti comuni dell'interfaccia (header, footer) sono estratti nella cartella "includes" e inclusi nelle varie pagine. Questo evita la duplicazione del codice e centralizza le modifiche strutturali.
 - La gestione della connessione al database è centralizzata in 'db.php', fornendo una funzione standardizzata 'getDBConnection()' al resto dell'applicazione.
@@ -27,7 +27,7 @@ Per passare i dati dei gatti selezionati al form di prenotazione ho usato un 'Cu
 Ho scelto questo approccio per tenere i due script separati e indipendenti: React resta nel suo 'react-root' senza toccare il DOM esterno, e il Vanilla JS non deve sapere nulla dell'implementazione interna del componente.
 
 6. Gestione Sicura degli Accessi (Sessioni)
-L'accesso ad aree riservate (prenotazione, volontariato, inserimento) è controllato tramite l'avvio delle sessioni PHP ('session_start()'). All'inizio di ogni pagina riservata, viene verificata l'esistenza della variabile di sessione (e, ove necessario, del flag 'is_admin'). Questo protegge l'infrastruttura impedendo che utenti non autorizzati o non autenticati possano raggiungere URL diretti di funzionalità sensibili.
+L'accesso ad aree riservate (prenotazione, volontariato, inserimento) è controllato tramite l'avvio delle sessioni PHP ('session_start()'). All'inizio di ogni pagina riservata, viene verificata l'esistenza della variabile di sessione (e, ove necessario, del flag 'is_admin'). Questo protegge l'infrastruttura impedendo che utenti non autorizzati o non autenticati possano raggiungere URL diretti di funzionalità sensibili.  
 
 7. Funzionalità "Ricordami" con Token Opaco
-La funzione "Ricordami" in 'login.php' utilizza un token opaco generato tramite 'bin2hex(random_bytes(16))' invece di memorizzare direttamente lo username nel cookie. L'associazione tra token e username viene mantenuta lato server in un file JSON ('data/tokens.json'), protetto da accesso diretto via browser tramite un file '.htaccess'. Il cookie contiene esclusivamente il token randomico: all'apertura della pagina di login, il sistema legge il file JSON e, se il token è presente, precompila il campo username. Questa scelta evita di esporre informazioni sensibili (lo username) nel cookie, impedendo a un eventuale attaccante di ricavare dati utili anche in caso di intercettazione.
+La funzione "Ricordami" in 'login.php' utilizza un token opaco generato tramite 'bin2hex(random_bytes(16))' invece di memorizzare direttamente lo username nel cookie. L'associazione tra token e username viene mantenuta lato server in un file JSON ('data/tokens.json'), protetto da accesso diretto via browser tramite un file '.htaccess'. Il cookie contiene esclusivamente il token randomico: all'apertura della pagina di login, il sistema legge il file JSON e, se il token è presente, precompila il campo username. Questa scelta evita di esporre l'username nel cookie. 

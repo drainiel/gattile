@@ -94,7 +94,7 @@ function GattiApp() {
                                 onClick={() => toggleSelezione(gatto.id)}
                                 style={{ cursor: window.IS_LOGGED_IN ? 'pointer' : 'default' }}
                             >
-                                <figure className="cat-img" style={{ backgroundImage: `url('${gatto.foto || 'images/placeholder.jpg'}')`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundColor: '#eee' }}></figure>
+                                <figure className="cat-img" style={{ backgroundImage: `url('${gatto.foto || 'images/placeholder.webp'}')`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundColor: '#eee' }}></figure>
                                 <div className="cat-info">
                                     <h3>{gatto.nome}</h3>
                                     <p><strong>Età:</strong> {gatto.eta} mesi</p>

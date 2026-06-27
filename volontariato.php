@@ -28,7 +28,7 @@ require_once 'includes/header.php';
     </aside>
 <?php else: ?>
 <section class="mt-2 mb-2" style="padding: 20px 0; text-align: center;">
-    <h2 class="auth-title">Prenota Turno di Volontariato</h2>
+    <h2 class="auth-title">Prenota un turno di volontariato</h2>
     <p class="auth-subtitle">Seleziona una fascia oraria. Massimo 2 volontari per fascia.</p>
     
     <output id="js-error-volontariato" class="alert alert-error" style="display:none; width: 50%; margin: 0 auto 20px auto;"></output>

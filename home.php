@@ -19,7 +19,7 @@ try {
 </section>
 
 <section class="mt-2">
-    <h2 class="auth-title">Nuovi Arrivi</h2>
+    <h2 class="auth-title">Nuovi arrivi</h2>
     <?php if (isset($errore_db)): ?>
         <output class="alert alert-error"><?php echo htmlspecialchars($errore_db); ?></output>
     <?php elseif (empty($ultimi_gatti)): ?>
@@ -30,7 +30,7 @@ try {
                 <li>
                     <a href="gatti.php" style="text-decoration: none; color: inherit; display: block;">
                         <article class="cat-card">
-                            <?php $foto = !empty($gatto['foto']) ? $gatto['foto'] : 'images/placeholder.jpg'; ?>
+                            <?php $foto = !empty($gatto['foto']) ? $gatto['foto'] : 'images/placeholder.webp'; ?>
                             <figure class="cat-img" style="background: url('<?php echo htmlspecialchars($foto); ?>') center/cover; background-color: #eee;"></figure>
                             <div class="cat-info">
                                 <h3><?php echo htmlspecialchars($gatto['nome']); ?></h3>

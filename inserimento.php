@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             $pdo = getDBConnection('modifier');
             $stmt = $pdo->prepare("INSERT INTO gatti (nome, descrizione, peso, colore_mantello, lunghezza_pelo, razza, colore_occhi, eta, sesso, data_arrivo, foto) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([$nome, $descrizione, $peso, $colore_mantello, $lunghezza_pelo, $razza, $colore_occhi, $eta, $sesso, $data_arrivo, 'images/placeholder.jpg']);
+            $stmt->execute([$nome, $descrizione, $peso, $colore_mantello, $lunghezza_pelo, $razza, $colore_occhi, $eta, $sesso, $data_arrivo, 'images/placeholder.webp']);
             
             $success = "Nuovo gatto inserito con successo!";
         } catch (Exception $e) {
@@ -42,8 +42,8 @@ require_once 'includes/header.php';
 ?>
 
 <section class="form-container mt-2 mb-2" style="max-width: 600px;">
-    <h2 class="auth-title">Inserimento Nuovo Gatto</h2>
-    <p class="auth-subtitle">Compila il form per registrare un nuovo ospite del gattile.</p>
+    <h2 class="auth-title" style="text-align: center;">Inserisci un nuovo gatto</h2>
+    <p class="auth-subtitle" style="text-align: center;">Compila il form per registrare un nuovo ospite del gattile.</p>
     
     <?php if ($error): ?>
         <output class="alert alert-error"><?php echo htmlspecialchars($error); ?></output>

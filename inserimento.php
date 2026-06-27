@@ -46,14 +46,14 @@ require_once 'includes/header.php';
     <p class="auth-subtitle" style="text-align: center;">Compila il form per registrare un nuovo ospite del gattile.</p>
     
     <?php if ($error): ?>
-        <output class="alert alert-error"><?php echo htmlspecialchars($error); ?></output>
+        <div class="alert alert-error"><?php echo htmlspecialchars($error); ?></div>
     <?php endif; ?>
     <?php if ($success): ?>
-        <output class="alert alert-success"><?php echo htmlspecialchars($success); ?></output>
+        <div class="alert alert-success"><?php echo htmlspecialchars($success); ?></div>
     <?php endif; ?>
     
     <form method="post" action="inserimento.php" id="form-inserimento" onsubmit="return validateCatInsertion(event)">
-        <output id="js-error-cat" class="alert alert-error" style="display:none;"></output>
+        <div id="js-error-cat" class="alert alert-error" style="display:none;"></div>
         
         <div class="form-group">
             <label for="nome">Nome</label>

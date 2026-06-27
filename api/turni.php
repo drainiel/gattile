@@ -14,15 +14,17 @@
  *       ]
  * 
  *   POST — Registra nuova prenotazione di turno per volontario.
+ *     Richiede sessione autenticata (utente_id letto da $_SESSION).
  *     Payload JSON (Content-Type: application/json):
  *       {
- *         "utente_id":      int    — ID utente autenticato, 
  *         "fascia_oraria":  string — (es. "09:00-12:00")
  *       }
  *     Risposta (200 OK):
  *       { "success": true }
  *
  * Codici di errore:
+ *   401 Unauthorized      — Sessione assente o utente non autenticato.
+ *                            Corpo: { "error": "Utente non autenticato." }
  *   400 Bad Request       — Campi obbligatori mancanti nel payload.
  *                            Corpo: { "error": "Dati mancanti." } 
  *   409 Conflict          — Fascia oraria piena (limite 2 volontari) o turno già prenotato
@@ -32,7 +34,15 @@
  *                            Corpo: { "error": "<messaggio>" }
  */
 require_once '../db.php';
+session_start();
 header('Content-Type: application/json');
+
+// Verifica autenticazione
+if (!isset($_SESSION['user_id'])) {
+    http_response_code(401);
+    echo json_encode(['error' => 'Utente non autenticato.']);
+    exit;
+}
 
 $method = $_SERVER['REQUEST_METHOD'];
 
@@ -45,12 +55,12 @@ try {
         $turni = $stmt->fetchAll();
         echo json_encode($turni); 
     } elseif ($method === 'POST') {
-        // Ricevi json input
+        // Ricevi json input; l'utente_id è preso dalla sessione, non dal payload
         $input = json_decode(file_get_contents('php://input'), true);
-        $utente_id = $input['utente_id'] ?? null;
+        $utente_id = $_SESSION['user_id'];
         $fascia_oraria = $input['fascia_oraria'] ?? null;
 
-        if (!$utente_id || !$fascia_oraria) {
+        if (!$fascia_oraria) {
             http_response_code(400);
             echo json_encode(['error' => 'Dati mancanti.']);
             exit;

@@ -22,7 +22,7 @@ $fasce_orarie = [
 require_once 'includes/header.php';
 ?>
 
-<?php if (!$loggato): ?>
+<?php if (!$loggato): ?> 
     <aside class="alert alert-warning text-center mt-2 mb-2">
         Per prenotare una visita conoscitiva o fare volontariato, <a href="login.php">effettua l'accesso</a> o <a href="registrazione.php">registrati</a>.
     </aside>

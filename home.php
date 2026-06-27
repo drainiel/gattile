@@ -21,7 +21,7 @@ try {
 <section class="mt-2">
     <h2 class="auth-title">Nuovi arrivi</h2>
     <?php if (isset($errore_db)): ?>
-        <output class="alert alert-error"><?php echo htmlspecialchars($errore_db); ?></output>
+        <div class="alert alert-error"><?php echo htmlspecialchars($errore_db); ?></div>
     <?php elseif (empty($ultimi_gatti)): ?>
         <p>Nessun gatto presente in struttura al momento.</p>
     <?php else: ?>

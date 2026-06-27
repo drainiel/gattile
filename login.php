@@ -90,7 +90,7 @@ require_once 'includes/header.php';
 <section class="form-container mt-2 mb-2">
     <h2 class="auth-title text-center">Login</h2>
     <?php if ($error): ?>
-        <output class="alert alert-error"><?php echo htmlspecialchars($error); ?></output>
+        <div class="alert alert-error"><?php echo htmlspecialchars($error); ?></div>
     <?php endif; ?>
     
     <form method="post" action="login.php" id="form-login">

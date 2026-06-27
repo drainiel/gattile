@@ -23,6 +23,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = "Le password non coincidono.";
     } elseif (empty($nome) || empty($cognome) || empty($indirizzo) || empty($username) || empty($password)) {
         $error = "Tutti i campi sono obbligatori.";
+    } elseif (!preg_match('/^[A-Za-z]/', $username)) {
+        $error = "Lo username deve cominciare con un carattere alfabetico.";
+    } elseif (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,16}$/', $password)) {
+        $error = "La password deve essere lunga tra 8 e 16 caratteri e contenere almeno una maiuscola, una minuscola, un numero e un carattere speciale.";
     } else {
         try {
             $pdo = getDBConnection('registrator');
@@ -47,14 +51,14 @@ require_once 'includes/header.php';
     <h2 class="auth-title text-center">Crea un account</h2>
     
     <?php if ($error): ?>
-        <output class="alert alert-error"><?php echo htmlspecialchars($error); ?></output>
+        <div class="alert alert-error"><?php echo htmlspecialchars($error); ?></div>
     <?php endif; ?>
     <?php if ($success): ?>
-        <output class="alert alert-success"><?php echo htmlspecialchars($success); ?></output>
+        <div class="alert alert-success"><?php echo htmlspecialchars($success); ?></div>
     <?php endif; ?>
     
     <form method="post" action="registrazione.php" id="form-registrazione" onsubmit="return validateRegistration(event)">
-        <output id="js-error" class="alert alert-error" style="display:none;"></output>
+        <div id="js-error" class="alert alert-error" style="display:none;"></div>
         
         <div class="form-group">
             <label for="nome">Nome</label>

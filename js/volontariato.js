@@ -46,7 +46,8 @@ function caricaDisponibilita() {
 /**
  * Gestisce il submit del form di prenotazione turno di volontariato.
  *
- * Invia una richiesta POST a api/turni.php con il payload JSON contenente utente_id e fascia_oraria. 
+ * Invia una richiesta POST a api/turni.php con il payload JSON contenente la fascia_oraria. 
+ * L'utente_id viene letto lato server dalla sessione PHP.
  * Gestisce le risposte di successo/errore aggiornando i relativi elementi di feedback nel DOM.
  * Al termine di ogni operazione richiama caricaDisponibilita() per mantenere sincronizzata UI con server.
  *
@@ -56,7 +57,6 @@ function caricaDisponibilita() {
 function prenotaTurno(event) {
     event.preventDefault();
 
-    const utenteId = document.getElementById('utente_id').value;
     const fasciaOraria = document.getElementById('fascia_oraria').value;
     const errorDiv = document.getElementById('js-error-volontariato');
     const successDiv = document.getElementById('js-success-volontariato');
@@ -76,7 +76,6 @@ function prenotaTurno(event) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            utente_id: utenteId,
             fascia_oraria: fasciaOraria
         })
     })

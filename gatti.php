@@ -19,8 +19,8 @@ $is_logged_in = isset($_SESSION['username']);
     <p class="auth-subtitle">Seleziona i gatti che ti interessano dalla lista sopra e scegli una data.</p>
     
     <form id="form-prenotazione" style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-end;">
-        <output id="js-error-prenotazione" class="alert alert-error" style="display:none; width: 100%;"></output>
-        <output id="js-success-prenotazione" class="alert alert-success" style="display:none; width: 100%;"></output>
+        <div id="js-error-prenotazione" class="alert alert-error" style="display:none; width: 100%;"></div>
+        <div id="js-success-prenotazione" class="alert alert-success" style="display:none; width: 100%;"></div>
         
         <div class="form-group" style="flex: 1; min-width: 250px; margin-bottom: 0;">
             <label>Gatti Selezionati</label>

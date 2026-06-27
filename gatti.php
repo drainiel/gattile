@@ -1,6 +1,7 @@
 <?php
 // gatti.php
 require_once 'db.php';
+session_start();
 require_once 'includes/header.php';
 
 // Controlla se utente loggato per mostrare il form di prenotazione
@@ -9,7 +10,7 @@ $is_logged_in = isset($_SESSION['username']);
 
 <section class="mb-2">
     <h2 class="auth-title">I nostri gatti</h2>
-    <div id="react-root"></div>
+    <div id="react-root"></div> 
 </section>
 
 <?php if ($is_logged_in): ?>
